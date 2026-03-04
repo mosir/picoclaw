@@ -1133,11 +1133,28 @@ func (al *AgentLoop) runLLMIteration(
 			// Save tool result message to session
 			agent.Sessions.AddFullMessage(opts.SessionKey, toolResultMsg)
 		}
+
+		// If this round only executed message tool calls, stop the loop here.
+		// This prevents "ack-on-ack" loops where the model keeps calling message.
+		if areAllToolCallsMessage(normalizedToolCalls) {
+			break
+		}
 	}
 
 	return finalContent, iteration, nil
 }
 
+func areAllToolCallsMessage(calls []providers.ToolCall) bool {
+	if len(calls) == 0 {
+		return false
+	}
+	for _, tc := range calls {
+		if tc.Name != "message" {
+			return false
+		}
+	}
+	return true
+}
 // maybeSummarize triggers summarization if the session history exceeds thresholds.
 func (al *AgentLoop) maybeSummarize(agent *AgentInstance, sessionKey, channel, chatID string) {
 	newHistory := agent.Sessions.GetHistory(sessionKey)
