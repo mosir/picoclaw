@@ -515,7 +515,7 @@ func TestRunLLMIteration_MessageOnlyToolCallsStopAfterOneRound(t *testing.T) {
 		agent,
 		[]providers.Message{
 			{Role: "system", Content: "test system prompt"},
-			{Role: "user", Content: "压缩上下文"},
+			{Role: "user", Content: "compress context"},
 		},
 		processOptions{
 			SessionKey:   "test-session",
