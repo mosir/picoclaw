@@ -1155,6 +1155,7 @@ func areAllToolCallsMessage(calls []providers.ToolCall) bool {
 	}
 	return true
 }
+
 // maybeSummarize triggers summarization if the session history exceeds thresholds.
 func (al *AgentLoop) maybeSummarize(agent *AgentInstance, sessionKey, channel, chatID string) {
 	newHistory := agent.Sessions.GetHistory(sessionKey)
