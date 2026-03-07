@@ -12,6 +12,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/sipeed/picoclaw/pkg/fileutil"
 	"github.com/sipeed/picoclaw/pkg/logger"
 	"github.com/sipeed/picoclaw/pkg/providers"
 	"github.com/sipeed/picoclaw/pkg/skills"
@@ -45,7 +46,7 @@ func getGlobalConfigDir() string {
 	if home := os.Getenv("PICOCLAW_HOME"); home != "" {
 		return home
 	}
-	home, err := os.UserHomeDir()
+	home, err := fileutil.HomeDir()
 	if err != nil {
 		return ""
 	}

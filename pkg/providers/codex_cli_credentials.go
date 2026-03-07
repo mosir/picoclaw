@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/sipeed/picoclaw/pkg/fileutil"
 )
 
 // CodexCliAuth represents the ~/.codex/auth.json file structure.
@@ -71,7 +73,7 @@ func CreateCodexCliTokenSource() func() (string, string, error) {
 func resolveCodexAuthPath() (string, error) {
 	codexHome := os.Getenv("CODEX_HOME")
 	if codexHome == "" {
-		home, err := os.UserHomeDir()
+		home, err := fileutil.HomeDir()
 		if err != nil {
 			return "", fmt.Errorf("getting home dir: %w", err)
 		}

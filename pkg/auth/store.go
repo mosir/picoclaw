@@ -42,7 +42,10 @@ func authFilePath() string {
 	if home := os.Getenv("PICOCLAW_HOME"); home != "" {
 		return filepath.Join(home, "auth.json")
 	}
-	home, _ := os.UserHomeDir()
+	home, err := fileutil.HomeDir()
+	if err != nil {
+		return filepath.Join(".picoclaw", "auth.json")
+	}
 	return filepath.Join(home, ".picoclaw", "auth.json")
 }
 

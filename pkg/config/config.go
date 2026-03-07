@@ -769,7 +769,7 @@ func SaveConfig(path string, cfg *Config) error {
 }
 
 func (c *Config) WorkspacePath() string {
-	return expandHome(c.Agents.Defaults.Workspace)
+	return fileutil.ExpandHome(c.Agents.Defaults.Workspace)
 }
 
 func (c *Config) GetAPIKey() string {
@@ -817,20 +817,6 @@ func (c *Config) GetAPIBase() string {
 		return c.Providers.VLLM.APIBase
 	}
 	return ""
-}
-
-func expandHome(path string) string {
-	if path == "" {
-		return path
-	}
-	if path[0] == '~' {
-		home, _ := os.UserHomeDir()
-		if len(path) > 1 && path[1] == '/' {
-			return home + path[1:]
-		}
-		return home
-	}
-	return path
 }
 
 // GetModelConfig returns the ModelConfig for the given model name.

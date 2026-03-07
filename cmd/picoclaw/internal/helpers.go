@@ -7,6 +7,7 @@ import (
 	"runtime"
 
 	"github.com/sipeed/picoclaw/pkg/config"
+	"github.com/sipeed/picoclaw/pkg/fileutil"
 )
 
 const Logo = "🦞"
@@ -24,7 +25,7 @@ func GetPicoclawHome() string {
 	if home := os.Getenv("PICOCLAW_HOME"); home != "" {
 		return home
 	}
-	home, _ := os.UserHomeDir()
+	home, _ := fileutil.HomeDir()
 	return filepath.Join(home, ".picoclaw")
 }
 
@@ -32,7 +33,11 @@ func GetConfigPath() string {
 	if configPath := os.Getenv("PICOCLAW_CONFIG"); configPath != "" {
 		return configPath
 	}
-	return filepath.Join(GetPicoclawHome(), "config.json")
+	home, err := fileutil.HomeDir()
+	if err != nil {
+		return filepath.Join(".picoclaw", "config.json")
+	}
+	return filepath.Join(home, ".picoclaw", "config.json")
 }
 
 func LoadConfig() (*config.Config, error) {

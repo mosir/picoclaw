@@ -8,6 +8,8 @@ package config
 import (
 	"os"
 	"path/filepath"
+
+	"github.com/sipeed/picoclaw/pkg/fileutil"
 )
 
 // DefaultConfig returns the default configuration for PicoClaw.
@@ -18,7 +20,7 @@ func DefaultConfig() *Config {
 	if picoclawHome := os.Getenv("PICOCLAW_HOME"); picoclawHome != "" {
 		homePath = picoclawHome
 	} else {
-		userHome, _ := os.UserHomeDir()
+		userHome, _ := fileutil.HomeDir()
 		homePath = filepath.Join(userHome, ".picoclaw")
 	}
 	workspacePath := filepath.Join(homePath, "workspace")
